@@ -5,6 +5,7 @@
 
 #include "Main/Logger.hpp"
 #include "Main/Commons.hpp"
+#include "Main/Uniform.hpp"
 #include "Main/Controller.hpp"
 #include "World/Scene.hpp"
 
@@ -21,7 +22,7 @@ void Controller::renderFunc() {
 
     bufferTriangles();
 
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawArrays(GL_TRIANGLES, 0, 3*triangles.size());
 
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
@@ -72,6 +73,10 @@ void Controller::mouseFunc(int button, int state, int x, int y) {
 void Controller::reshapeFunc(int width, int height) {
     Controller::width = width;
     Controller::height = height;
+    glUseProgram(getProgram());
+    glUniform1f(Uniform::windowHeight, height);
+    glUniform1f(Uniform::windowWidth, width);
+    glUseProgram(nullobj);
     glViewport(0, 0, width, height);
 }
 

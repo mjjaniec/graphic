@@ -6,6 +6,8 @@
 namespace Main {
     namespace Uniform {
         extern GLuint phase;
+        extern GLuint windowWidth;
+        extern GLuint windowHeight;
     }
 }
 

@@ -3,16 +3,19 @@
 in vec4 vertexColor;
 
 uniform float phase;
+uniform float windowWidth;
+uniform float windowHeight;
 
 out vec4 outputColor;
 
-float dist(float x, float y, vec4 place) {
-    return sqrt((x-place.x)*(x-place.x) + (y-place.y)*(y-place.y));
+float dist(vec4 place) {
+    float x = windowWidth/2;
+    float y = windowHeight/2;
+    return sqrt((x-place.x)*(x-place.x) + (y-place.y)*(y-place.y))/max(1,min(windowWidth,windowHeight))*20;
 
 }
 
 void main()
 {
-    outputColor = mix(vec4(0,0,0,0),vertexColor,0.6+sin(phase + dist(100,100,gl_FragCoord)/20)/2.0);
-    //gl_FragCoord - place in screen
+    outputColor = vertexColor;
 }

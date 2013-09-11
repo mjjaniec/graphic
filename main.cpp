@@ -1,10 +1,10 @@
 #include <string>
-#include <exception>
-#include <stdexcept>
+#include <fstream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
-#include <fstream>
+#include <exception>
+#include <stdexcept>
 
 #include <glload/gl_3_3.h>
 #include <glload/gl_load.hpp>
@@ -13,6 +13,7 @@
 #include "Main/Logger.hpp"
 #include "Main/Config.hpp"
 #include "Main/Commons.hpp"
+#include "Main/Uniform.hpp"
 #include "Main/Controller.hpp"
 
 using namespace Main;
@@ -86,7 +87,13 @@ void init() {
     Controller::setVertexBuffer(bufferID);
 
 
-    GLuint phase = glGetUniformLocation(Controller::getProgram(), "phase");
+    Uniform::phase = glGetUniformLocation(Controller::getProgram(), "phase");
+    Uniform::windowHeight = glGetUniformLocation(Controller::getProgram(), "windowHeight");
+    Uniform::windowWidth = glGetUniformLocation(Controller::getProgram(), "windowWidth");
+
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glFrontFace(GL_CW);
 }
 /*
 

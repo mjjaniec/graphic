@@ -3,5 +3,7 @@
 namespace Main {
     namespace Uniform {
         GLuint phase;
+        GLuint windowWidth;
+        GLuint windowHeight;
     }
 }
