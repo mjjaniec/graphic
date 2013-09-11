@@ -1,10 +1,20 @@
-attribute vec4 qt_Vertex;
-attribute vec4 qt_MultiTexCoord0;
-uniform mat4 qt_ModelViewProjectionMatrix;
-varying vec4 qt_TexCoord0;
+#version 140
 
-void main(void)
+in vec4 color;
+in vec4 position;
+
+out vec4 vertexColor;
+
+bool compare(vec4 a, vec4 b) {
+    return abs(a.x - b.x) < 0.001 &&
+            abs(a.y - b.y) < 0.001 &&
+            abs(a.z - b.z) < 0.001 &&
+            abs(a.w - b.w) < 0.001;
+}
+
+void main()
 {
-    gl_Position = qt_ModelViewProjectionMatrix * qt_Vertex;
-    qt_TexCoord0 = qt_MultiTexCoord0;
+    vertexColor = color;
+    gl_Position = position;
+
 }
