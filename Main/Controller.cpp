@@ -2,6 +2,8 @@
 #include <glload/gl_3_3.h>
 #include <glload/gl_load.hpp>
 #include <GL/freeglut.h>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "Main/Logger.hpp"
 #include "Main/Commons.hpp"
@@ -15,16 +17,9 @@ namespace Main {
 
 void Controller::init() {
     glUseProgram(Controller::getProgram());
-    const float frustumScale=1;
-    const float n = 0.2;
-    const float f = 5;
-    float matrix[4][4] = {
-        {frustumScale/ (Main::Controller::getWidth() / (float)Main::Controller::getHeight()),0,0,0},
-        {0,frustumScale,0,0},
-        {0,0,(f+n)/(n-f),2*f*n/(n-f)},
-        {0,0,-1,0}
-    };
-    glUniformMatrix4fv(Main::Uniform::cameraToClipMatrix,1,GL_TRUE,(GLfloat*)(void*)matrix);
+    updateCameraToClipMatrix();
+    updateWorldToCameraMatrix();
+    glUniformMatrix4fv(Uniform::modelToWorldMatrix,1,GL_FALSE,glm::value_ptr(glm::mat4()));
     glUseProgram(nullobj);
 }
 
@@ -55,7 +50,6 @@ void Controller::renderFunc() {
     glUseProgram(nullobj);
 
     glutSwapBuffers();
-    glutPostRedisplay();
 }
 
 void Controller::bufferTriangles() {
@@ -83,15 +77,46 @@ void Controller::bufferTriangles() {
     oldSize=newSize;
 }
 
+void Controller::updateCameraToClipMatrix() {
+    const float frustum = 1;
+    const float n = 1, f = 3;
+    glUniformMatrix4fv(Main::Uniform::cameraToClipMatrix,1,GL_FALSE,glm::value_ptr(glm::mat4(
+        frustum / Controller::getWidth() * Controller::getHeight(), 0, 0, 0,
+        0, frustum, 0, 0,
+        0, 0, (n+f)/(n-f), 2*n*f/(n-f),
+        0, 0, -1, 0 )));
+}
+
+float yRotation = 0;
+float xRotation = 0;
+
+void Controller::updateWorldToCameraMatrix() {
+    glUseProgram(getProgram());
+    glm::mat4 worldToCamera = glm::mat4(1.0f);
+    worldToCamera = glm::translate(worldToCamera,glm::vec3(0.0f, 0.0f, -2.0f));
+    worldToCamera = glm::rotate(worldToCamera,xRotation,glm::vec3(-1.0f, 0.0f, 0.0f));
+    worldToCamera = glm::rotate(worldToCamera,yRotation,glm::vec3(-0.0f, 1.0f, 0.0f));
+    glUniformMatrix4fv(Uniform::worldToCameraMatrix,1,GL_FALSE,glm::value_ptr(worldToCamera));
+}
+
 void Controller::keyboardFunc(unsigned char key, int x, int y) {
     x = y;
     y = x;
+    const float step = 5;
     switch (key)
     {
+    case 'a': yRotation += step; break;
+    case 'd': yRotation -= step; break;
+
+    case 'w': xRotation += step; break;
+    case 's': xRotation -= step; break;
+
     case 27:
         glutLeaveMainLoop();
         break;
     }
+    Controller::updateWorldToCameraMatrix();
+    glutPostRedisplay();
 }
 
 void Controller::mouseFunc(int button, int state, int x, int y) {
@@ -105,6 +130,7 @@ void Controller::reshapeFunc(int width, int height) {
     glUseProgram(getProgram());
     glUniform1f(Uniform::windowHeight, height);
     glUniform1f(Uniform::windowWidth, width);
+    updateCameraToClipMatrix();
     glUseProgram(nullobj);
     glViewport(0, 0, width, height);
 }
@@ -137,8 +163,8 @@ void Controller::setVertexBuffer(GLuint vertexBuffer) {
     Controller::vertexBuffer = vertexBuffer;
 }
 
-int Controller::width;
-int Controller::height;
+int Controller::width = 1;
+int Controller::height = 1;
 std::vector<Engine::Triangle> Controller::triangles;
 GLuint Controller::program;
 GLuint Controller::vertexBuffer;

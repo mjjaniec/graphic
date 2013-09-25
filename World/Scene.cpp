@@ -28,25 +28,10 @@ Scene* Scene::getInstance() {
     return Scene::instance;
 }
 
-static float sin2(float x) {
-    return 0.5f + sin(x) / 2.0f;
-}
-
 void Scene::render() {
     auto triangles = Main::Controller::getTriangles();
-    float elapsedTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
 
     if(!inited) {
-       /*std::ifstream in("../P3/Resurces/cube2");
-
-        triangles->clear();
-
-        Triangle t;
-        while(in>>t){
-            triangles->push_back(t);
-            std::cout<<t<<"\n\n";
-        }
-        inited = true;*/
         Object cube("../P3/Resources/cube2");
         Object cube2("../P3/Resources/cube2");
 

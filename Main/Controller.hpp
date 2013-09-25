@@ -30,11 +30,13 @@ namespace Main {
         static int height;
         static GLuint program;
         static GLuint vertexBuffer;
-        static void drawAxes();
 
         static std::vector<Engine::Triangle> triangles;
         static Engine::Object axes;
     private:
+        static void updateWorldToCameraMatrix();
+        static void updateCameraToClipMatrix();
+        static void drawAxes();
         static void bufferTriangles();
     };
 }
