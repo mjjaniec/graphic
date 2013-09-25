@@ -10,7 +10,8 @@ SOURCES += main.cpp \
     Main/Logger.cpp \
     Engine/Position.cpp \
     Engine/Color.cpp \
-    Main/Uniform.cpp
+    Main/Uniform.cpp \
+    Engine/Object.cpp
 
 LIBS += -lfreeglutD -lglutilD -lglfwD -lglmeshD -lglimgD -lglloadD -lGL -lGLU -lX11 -lXrandr -lpthread
 
@@ -24,7 +25,8 @@ HEADERS += \
     World/Scene.hpp \
     Engine/Color.hpp \
     Engine/Position.hpp \
-    Main/Uniform.hpp
+    Main/Uniform.hpp \
+    Engine/Object.hpp
 
 OTHER_FILES += \
     Shaders/vertex.glsl \

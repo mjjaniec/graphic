@@ -14,7 +14,8 @@ namespace Main {
 void Controller::renderFunc() {
 
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClearDepth(1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glUseProgram(Controller::getProgram());
 
@@ -34,7 +35,6 @@ void Controller::renderFunc() {
 
 void Controller::bufferTriangles() {
     static int oldSize = -1;
-
 
     glBindBuffer(GL_ARRAY_BUFFER, getVertexBuffer());
 

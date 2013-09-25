@@ -1,10 +1,12 @@
 #include "World/Scene.hpp"
 
 #include <math.h>
+#include <iostream>
 
 #include <glload/gl_3_3.h>
 #include <glload/gl_load.hpp>
 #include <GL/freeglut.h>
+#include <glm/glm.hpp>
 
 #include "Main/Logger.hpp"
 #include "Main/Uniform.hpp"
@@ -13,8 +15,12 @@
 
 #include "Engine/Vertex.hpp"
 #include "Engine/Triangle.hpp"
+#include "Engine/Object.hpp"
+
+using namespace Engine;
 
 namespace World{
+bool inited = false;
 
 Scene* Scene::instance = new Scene;
 
@@ -28,18 +34,42 @@ static float sin2(float x) {
 
 void Scene::render() {
     auto triangles = Main::Controller::getTriangles();
-    triangles->clear();
     float elapsedTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
-    glUniform1f(Main::Uniform::phase,elapsedTime);
-    triangles->push_back(Engine::Triangle(
-                             Engine::Vertex(Engine::Position(-0.75, -0.75), Engine::Color(sin2(10+elapsedTime), sin2(9-elapsedTime), sin2(9+elapsedTime))),
-                            Engine::Vertex(Engine::Position(+0.75, -0.75), Engine::Color(sin2(2-elapsedTime), sin2(3+elapsedTime), sin2(3-elapsedTime))),
-                            Engine::Vertex(Engine::Position(-0.75, +0.75), Engine::Color(sin2(3+elapsedTime), sin2(1+elapsedTime), sin2(6+elapsedTime)))));
-    triangles->push_back(Engine::Triangle(
-                             Engine::Vertex(Engine::Position(+0.75, +0.75), Engine::Color(sin2(3+elapsedTime), sin2(25+elapsedTime), sin2(0+elapsedTime))),
-                            Engine::Vertex(Engine::Position(+0.75, -0.75), Engine::Color(sin2(2-elapsedTime), sin2(3+elapsedTime), sin2(3-elapsedTime))),
-                            Engine::Vertex(Engine::Position(-0.75, +0.75), Engine::Color(sin2(3+elapsedTime), sin2(1+elapsedTime), sin2(6+elapsedTime)))));
+    const float frustumScale=1;
+    const float n = 1;
+    const float f = 5;
+    float matrix[4][4] = {
+        {frustumScale/ (Main::Controller::getWidth() / (float)Main::Controller::getHeight()),0,0,0},
+        {0,frustumScale,0,0},
+        {0,0,(f+n)/(n-f),2*f*n/(n-f)},
+        {0,0,-1,0}
+    };
+    glUniformMatrix4fv(Main::Uniform::perspectiveMatrix,1,GL_TRUE,(GLfloat*)(void*)matrix);
+    glUniform2f(Main::Uniform::offset,0.5f,0.5f);
 
+    if(!inited) {
+       /*std::ifstream in("../P3/Resurces/cube2");
+
+        triangles->clear();
+
+        Triangle t;
+        while(in>>t){
+            triangles->push_back(t);
+            std::cout<<t<<"\n\n";
+        }
+        inited = true;*/
+        Object cube("../P3/Resurces/cube2");
+        Object cube2("../P3/Resurces/cube2");
+
+        cube2.transform(glm::mat4(
+                            1,0,0,0,
+                            0,1,0,0,
+                            0,0,1,-2,
+                            0,0,0,1));
+
+        triangles->insert(triangles->end(),cube.getTriangles().begin(),cube.getTriangles().end());
+        triangles->insert(triangles->end(),cube2.getTriangles().begin(),cube2.getTriangles().end());
+    }
 }
 
 }

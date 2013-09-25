@@ -5,16 +5,11 @@ in vec4 position;
 
 out vec4 vertexColor;
 
-bool compare(vec4 a, vec4 b) {
-    return abs(a.x - b.x) < 0.001 &&
-            abs(a.y - b.y) < 0.001 &&
-            abs(a.z - b.z) < 0.001 &&
-            abs(a.w - b.w) < 0.001;
-}
-
+uniform vec2 offset;
+uniform mat4 perspectiveMatrix;
 void main()
 {
+    vec4 cameraPos = position + vec4(offset.x, offset.y, 0.0, 0.0);
+    gl_Position = perspectiveMatrix * cameraPos;
     vertexColor = color;
-    gl_Position = position;
-
 }

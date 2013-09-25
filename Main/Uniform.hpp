@@ -8,6 +8,8 @@ namespace Main {
         extern GLuint phase;
         extern GLuint windowWidth;
         extern GLuint windowHeight;
+        extern GLuint perspectiveMatrix;
+        extern GLuint offset;
     }
 }
 

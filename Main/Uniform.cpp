@@ -5,5 +5,7 @@ namespace Main {
         GLuint phase;
         GLuint windowWidth;
         GLuint windowHeight;
+        GLuint perspectiveMatrix;
+        GLuint offset;
     }
 }
