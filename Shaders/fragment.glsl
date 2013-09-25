@@ -2,7 +2,6 @@
 
 in vec4 vertexColor;
 
-uniform float phase;
 uniform float windowWidth;
 uniform float windowHeight;
 

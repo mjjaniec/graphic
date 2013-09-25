@@ -11,6 +11,30 @@
 
 namespace Main {
 
+
+
+void Controller::init() {
+    glUseProgram(Controller::getProgram());
+    const float frustumScale=1;
+    const float n = 0.2;
+    const float f = 5;
+    float matrix[4][4] = {
+        {frustumScale/ (Main::Controller::getWidth() / (float)Main::Controller::getHeight()),0,0,0},
+        {0,frustumScale,0,0},
+        {0,0,(f+n)/(n-f),2*f*n/(n-f)},
+        {0,0,-1,0}
+    };
+    glUniformMatrix4fv(Main::Uniform::cameraToClipMatrix,1,GL_TRUE,(GLfloat*)(void*)matrix);
+    glUseProgram(nullobj);
+}
+
+void Controller::drawAxes() {
+    triangles.insert(triangles.end(),axes.getTriangles().begin(),axes.getTriangles().end());
+    bufferTriangles();
+    glDrawArrays(GL_TRIANGLES, 0, 3*triangles.size());
+    triangles.clear();
+}
+
 void Controller::renderFunc() {
 
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -19,6 +43,7 @@ void Controller::renderFunc() {
 
     glUseProgram(Controller::getProgram());
 
+    drawAxes();
     World::Scene::getInstance()->render();
 
     bufferTriangles();
@@ -117,5 +142,6 @@ int Controller::height;
 std::vector<Engine::Triangle> Controller::triangles;
 GLuint Controller::program;
 GLuint Controller::vertexBuffer;
+Engine::Object Controller::axes("../P3/Resources/axes");
 
 }

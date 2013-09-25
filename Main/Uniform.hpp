@@ -5,11 +5,11 @@
 
 namespace Main {
     namespace Uniform {
-        extern GLuint phase;
         extern GLuint windowWidth;
         extern GLuint windowHeight;
-        extern GLuint perspectiveMatrix;
-        extern GLuint offset;
+        extern GLuint modelToWorldMatrix;
+        extern GLuint worldToCameraMatrix;
+        extern GLuint cameraToClipMatrix;
     }
 }
 

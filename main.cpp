@@ -86,20 +86,22 @@ void init() {
     glGenBuffers(1, &bufferID);
     Controller::setVertexBuffer(bufferID);
 
-
-    Uniform::phase = glGetUniformLocation(Controller::getProgram(), "phase");
     Uniform::windowHeight = glGetUniformLocation(Controller::getProgram(), "windowHeight");
     Uniform::windowWidth = glGetUniformLocation(Controller::getProgram(), "windowWidth");
-    Uniform::perspectiveMatrix = glGetUniformLocation(Controller::getProgram(), "perspectiveMatrix");
-    Uniform::offset = glGetUniformLocation(Controller::getProgram(),"offset");
+    Uniform::modelToWorldMatrix = glGetUniformLocation(Controller::getProgram(), "modelToWorldMatrix");
+    Uniform::worldToCameraMatrix = glGetUniformLocation(Controller::getProgram(), "worldToCameraMatrix");
+    Uniform::cameraToClipMatrix = glGetUniformLocation(Controller::getProgram(), "cameraToClipMatrix");
 
     glEnable(GL_DEPTH_TEST);
     glDepthMask(GL_TRUE);
     glDepthFunc(GL_LEQUAL);
     glDepthRange(0.0f, 1.0f);
-    glEnable(GL_CULL_FACE);
+
+   // glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glFrontFace(GL_CW);
+
+    Controller::init();
 }
 
 int main(int argc, char** argv)

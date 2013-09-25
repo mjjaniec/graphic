@@ -35,17 +35,6 @@ static float sin2(float x) {
 void Scene::render() {
     auto triangles = Main::Controller::getTriangles();
     float elapsedTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
-    const float frustumScale=1;
-    const float n = 1;
-    const float f = 5;
-    float matrix[4][4] = {
-        {frustumScale/ (Main::Controller::getWidth() / (float)Main::Controller::getHeight()),0,0,0},
-        {0,frustumScale,0,0},
-        {0,0,(f+n)/(n-f),2*f*n/(n-f)},
-        {0,0,-1,0}
-    };
-    glUniformMatrix4fv(Main::Uniform::perspectiveMatrix,1,GL_TRUE,(GLfloat*)(void*)matrix);
-    glUniform2f(Main::Uniform::offset,0.5f,0.5f);
 
     if(!inited) {
        /*std::ifstream in("../P3/Resurces/cube2");
@@ -64,7 +53,7 @@ void Scene::render() {
         cube2.transform(glm::mat4(
                             1,0,0,0,
                             0,1,0,0,
-                            0,0,1,-2,
+                            0,0,1,2,
                             0,0,0,1));
 
         triangles->insert(triangles->end(),cube.getTriangles().begin(),cube.getTriangles().end());

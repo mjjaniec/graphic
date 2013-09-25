@@ -7,6 +7,7 @@
 #include <GL/freeglut.h>
 
 #include <Engine/Triangle.hpp>
+#include <Engine/Object.hpp>
 
 namespace Main {
     class Controller {
@@ -22,14 +23,17 @@ namespace Main {
         static void setProgram(GLuint program);
         static GLuint getVertexBuffer();
         static void setVertexBuffer(GLuint vertexBuffer);
+        static void init();
 
     private:
         static int width;
         static int height;
         static GLuint program;
         static GLuint vertexBuffer;
+        static void drawAxes();
 
         static std::vector<Engine::Triangle> triangles;
+        static Engine::Object axes;
     private:
         static void bufferTriangles();
     };
