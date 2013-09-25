@@ -58,8 +58,8 @@ void Scene::render() {
             std::cout<<t<<"\n\n";
         }
         inited = true;*/
-        Object cube("../P3/Resurces/cube2");
-        Object cube2("../P3/Resurces/cube2");
+        Object cube("../P3/Resources/cube2");
+        Object cube2("../P3/Resources/cube2");
 
         cube2.transform(glm::mat4(
                             1,0,0,0,

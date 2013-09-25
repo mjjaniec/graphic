@@ -46,6 +46,10 @@ void Controller::bufferTriangles() {
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 32, (GLvoid*)16);
 
     int newSize = triangles.size()*sizeof(Engine::Triangle);
+    if(newSize == 0) {
+        Log_error << "no model\n";
+        exit(-1);
+    }
     if(newSize != oldSize) {
         glBufferData(GL_ARRAY_BUFFER, newSize, triangles.data(), GL_STREAM_DRAW);
     } else {
