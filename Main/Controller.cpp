@@ -24,10 +24,11 @@ void Controller::init() {
 }
 
 void Controller::drawAxes() {
-    triangles.insert(triangles.end(),axes.getTriangles().begin(),axes.getTriangles().end());
-    bufferTriangles();
-    glDrawArrays(GL_TRIANGLES, 0, 3*triangles.size());
-    triangles.clear();
+    glUniformMatrix4fv(Uniform::modelToWorldMatrix,1,GL_FALSE,glm::value_ptr(glm::mat4()));
+    glDisable(GL_CULL_FACE);
+    initObject(&axes);
+    drawObject();
+    glEnable(GL_CULL_FACE);
 }
 
 void Controller::renderFunc() {
@@ -39,11 +40,8 @@ void Controller::renderFunc() {
     glUseProgram(Controller::getProgram());
 
     drawAxes();
+
     World::Scene::getInstance()->render();
-
-    bufferTriangles();
-
-    glDrawArrays(GL_TRIANGLES, 0, 3*triangles.size());
 
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
@@ -52,9 +50,8 @@ void Controller::renderFunc() {
     glutSwapBuffers();
 }
 
-void Controller::bufferTriangles() {
-    static int oldSize = -1;
-
+void Controller::initObject(Engine::Object* object){
+    Controller::object = object;
     glBindBuffer(GL_ARRAY_BUFFER, getVertexBuffer());
 
     glEnableVertexAttribArray(0);
@@ -64,17 +61,17 @@ void Controller::bufferTriangles() {
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 32, (GLvoid*)0);
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 32, (GLvoid*)16);
 
-    int newSize = triangles.size()*sizeof(Engine::Triangle);
+    int newSize = object->getTriangles().size()*sizeof(Engine::Triangle);
     if(newSize == 0) {
-        Log_error << "no model\n";
+        Log_error << "empty model\n";
         exit(-1);
     }
-    if(newSize != oldSize) {
-        glBufferData(GL_ARRAY_BUFFER, newSize, triangles.data(), GL_STREAM_DRAW);
-    } else {
-        glBufferSubData(GL_ARRAY_BUFFER, 0, newSize, triangles.data() );
-    }
-    oldSize=newSize;
+
+   glBufferData(GL_ARRAY_BUFFER, newSize, object->getTriangles().data(), GL_STREAM_DRAW);
+}
+
+void Controller::drawObject() {
+    glDrawArrays(GL_TRIANGLES, 0, 3*object->getTriangles().size());
 }
 
 void Controller::updateCameraToClipMatrix() {
@@ -169,5 +166,6 @@ std::vector<Engine::Triangle> Controller::triangles;
 GLuint Controller::program;
 GLuint Controller::vertexBuffer;
 Engine::Object Controller::axes("../P3/Resources/axes");
+Engine::Object* Controller::object;
 
 }

@@ -11,7 +11,8 @@ SOURCES += main.cpp \
     Engine/Position.cpp \
     Engine/Color.cpp \
     Main/Uniform.cpp \
-    Engine/Object.cpp
+    Engine/Object.cpp \
+    Engine/MetrixStack.cpp
 
 LIBS += -lfreeglutD -lglutilD -lglfwD -lglmeshD -lglimgD -lglloadD -lGL -lGLU -lX11 -lXrandr -lpthread
 
@@ -26,7 +27,8 @@ HEADERS += \
     Engine/Color.hpp \
     Engine/Position.hpp \
     Main/Uniform.hpp \
-    Engine/Object.hpp
+    Engine/Object.hpp \
+    Engine/MatrixStack.hpp
 
 OTHER_FILES += \
     Shaders/vertex.glsl \

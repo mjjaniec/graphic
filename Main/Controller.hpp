@@ -24,6 +24,8 @@ namespace Main {
         static GLuint getVertexBuffer();
         static void setVertexBuffer(GLuint vertexBuffer);
         static void init();
+        static void initObject(Engine::Object* object);
+        static void drawObject();
 
     private:
         static int width;
@@ -33,6 +35,7 @@ namespace Main {
 
         static std::vector<Engine::Triangle> triangles;
         static Engine::Object axes;
+        static Engine::Object*object;
     private:
         static void updateWorldToCameraMatrix();
         static void updateCameraToClipMatrix();
