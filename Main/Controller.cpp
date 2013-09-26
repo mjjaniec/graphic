@@ -91,20 +91,18 @@ void Controller::updateWorldToCameraMatrix() {
     glUseProgram(getProgram());
     glm::mat4 worldToCamera = glm::mat4(1.0f);
 
+    orientation = glm::fquat(1.0f,0.0f,0.0f,0.0f);
 
-    if(pitchOffset) {
-        orientation = glm::rotate(orientation,pitchOffset,glm::vec3(1,0,0));
+    if(pitch) {
+        orientation = glm::rotate(orientation,pitch,glm::vec3(1,0,0));
     }
-    if(yawOffset) {
-        orientation = glm::rotate(orientation,yawOffset,glm::vec3(0,1,0));
+    if(yaw) {
+        float radPitch = M_PI * pitch / 180;
+        orientation = glm::rotate(orientation,yaw,glm::vec3(0,cos(radPitch),-sin(radPitch)));
     }
-    if(rollOffset) {
-        orientation = glm::rotate(orientation,rollOffset,glm::vec3(0,0,1));
+    if(roll) {
+        orientation = glm::rotate(orientation,roll,glm::vec3(0,0,1));
     }
-
-    yawOffset = 0;
-    pitchOffset = 0;
-    rollOffset = 0;
 
     worldToCamera = glm::translate(worldToCamera,glm::vec3(0.0f, 0.0f, -4.0f));
     worldToCamera = worldToCamera*glm::mat4_cast(orientation);
@@ -119,11 +117,11 @@ void Controller::keyboardFunc(unsigned char key, int x, int y) {
     const float step = -4;
     switch (key)
     {
-    case 'a': yawOffset+= step; break;
-    case 'd': yawOffset -= step; break;
+    case 'a': yaw+= step; break;
+    case 'd': yaw -= step; break;
 
-    case 'w': pitchOffset += step; break;
-    case 's': pitchOffset -= step; break;
+    case 'w': pitch += step; break;
+    case 's': pitch -= step; break;
 
     case 27:
         glutLeaveMainLoop();
@@ -185,9 +183,9 @@ GLuint Controller::vertexBuffer;
 Engine::Object Controller::axes("../P3/Resources/axes");
 Engine::Object* Controller::object;
 glm::fquat Controller::orientation(1.0f, 0.0f, 0.0f, 0.0f);
-float Controller::pitchOffset = 0.0f;
-float Controller::yawOffset = 0.0f;
-float Controller::rollOffset = 0.0f;
+float Controller::pitch = 0.0f;
+float Controller::yaw = 0.0f;
+float Controller::roll = 0.0f;
 static float rollOffset;
 
 }

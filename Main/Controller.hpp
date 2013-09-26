@@ -41,9 +41,9 @@ namespace Main {
         static std::vector<Engine::Triangle> triangles;
         static Engine::Object axes;
         static Engine::Object*object;
-        static float pitchOffset;
-        static float yawOffset;
-        static float rollOffset;
+        static float pitch;
+        static float yaw;
+        static float roll;
     private:
         static void updateWorldToCameraMatrix();
         static void updateCameraToClipMatrix();
