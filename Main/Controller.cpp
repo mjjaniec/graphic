@@ -32,7 +32,7 @@ void Controller::drawAxes() {
 
 void Controller::renderFunc() {
 
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClearColor(0.2f, 0.6f, 1.0f, 0.0f);
     glClearDepth(1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -94,11 +94,10 @@ void Controller::updateWorldToCameraMatrix() {
     orientation = glm::fquat(1.0f,0.0f,0.0f,0.0f);
 
     if(pitch) {
-        orientation = glm::rotate(orientation,pitch,glm::vec3(1,0,0));
+        orientation = glm::rotate(orientation,pitch,glm::vec3(1,0, 0));
     }
     if(yaw) {
-        float radPitch = M_PI * pitch / 180;
-        orientation = glm::rotate(orientation,yaw,glm::vec3(0,cos(radPitch),-sin(radPitch)));
+        orientation = glm::rotate(orientation,yaw,glm::vec3(0,1,0));
     }
     if(roll) {
         orientation = glm::rotate(orientation,roll,glm::vec3(0,0,1));

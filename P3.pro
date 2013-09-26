@@ -34,4 +34,7 @@ OTHER_FILES += \
     Shaders/vertex.glsl \
     Shaders/fragment.glsl \
     Resources/axes \
-    Resources/cube2
+    Resources/cube2 \
+    Resources/grass \
+    Resources/tree \
+    Resources/skies.txt

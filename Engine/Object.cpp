@@ -4,6 +4,14 @@
 
 namespace Engine{
 
+std::ostream& operator<<(std::ostream& out, Object& self){
+    out<< " { triangles: [";
+    for(Triangle triangle : self.getTriangles()) {
+        out<<triangle<<",\n";
+    }
+    out<<" ] }";
+}
+
 Object::Object(const char *filename) {
     std::ifstream in(filename);
 
@@ -28,11 +36,4 @@ std::vector<Triangle>& Object::getTriangles(){
     return triangles;
 }
 
-std::ostream& operator<<(std::ostream& out, Object&self) {
-    out<<" { triangles: [ ";
-    for(Triangle& triangle : self.getTriangles()) {
-        out << triangle << ", ";
-    }
-    out<<" ] }";
-}
 }

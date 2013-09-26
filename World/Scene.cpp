@@ -24,19 +24,25 @@ using namespace Engine;
 
 namespace World{
 
-Scene::Scene():cube("../P3/Resources/cube2"){
-    cube.transform(glm::mat4(1,0,0,0, 0,1,0,0, 0,0,0.333333333333333,0.666666666666667, 0,0,0,1));
+const int amount = 30;
+
+Scene::Scene():cube("../P3/Resources/cube2"), grass("../P3/Resources/grass"), tree("../P3/Resources/tree"){
+    cube.transform(glm::mat4(1,0,0,0,   0,1,0,0,    0,0,0.333333333333333,0.666666666666667, 0,0,0,1));
+    cube.transform(glm::mat4(2,0,0,0,   0,2,0,0,    0,0,2,0,    0,0,0,1));
+
+    std::cout<<tree<<"\n";
+
+    positions = new glm::vec2[amount];
+    for(int i = 0; i<amount; ++i) {
+        positions[i] = glm::vec2(random()%200-100.0,random()%200-100.0);
+    }
+
 }
 
 Scene* Scene::instance = new Scene;
 
 Scene* Scene::getInstance() {
     return Scene::instance;
-}
-
-void draw(MatrixStack& matrixStack) {
-    glUniformMatrix4fv(Main::Uniform::modelToWorldMatrix,1,GL_FALSE,glm::value_ptr(matrixStack.Top()));
-    Main::Controller::drawObject();
 }
 
 void scale(MatrixStack& stack, float scale) {
@@ -49,68 +55,19 @@ void trans(MatrixStack& stack, float z) {
 
 
 void Scene::render() {
+    Main::Controller::initObject(&grass);
+    Main::Controller::drawObject();
+
+    Main::Controller::initObject(&tree);
+    Main::Controller::drawObject();
+
     Main::Controller::initObject(&cube);
 
-    float elapsedTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
-    MatrixStack stack;
-
-    const float factor = 4.0f;
-    float baseLength = 4.0f;
-    float arm1Angle = -45.0f + 15 * sin(elapsedTime);
-    float arm1Length = 4.0f;
-    float arm2Length = 2.0f + cos(elapsedTime*2);
-    float arm2Angle = 15 + 30 * sin(elapsedTime*4);
-
-
-    stack.push();
-    {
-        stack.push();
-        {
-            stack.translate(glm::vec3(0.5,0,0));
-            scale(stack,baseLength);
-            draw(stack);
-        }
-        stack.pop();
-        stack.push();
-        {
-            stack.translate(glm::vec3(-0.5,0,0));
-            scale(stack,baseLength);
-            draw(stack);
-        }
-        stack.pop();
-
-        trans(stack,-baseLength/factor);
-
-        stack.push();
-        {
-            stack.rotateX(arm1Angle);
-            trans(stack,arm1Length/factor);
-            stack.push();
-            {
-                scale(stack,arm1Length);
-                draw(stack);
-            }
-            stack.pop();
-
-            trans(stack,0.9*arm1Length/factor);
-
-            stack.push();
-            {
-                stack.rotateX(arm2Angle);
-                trans(stack,arm2Length/factor);
-                stack.push();
-                {
-                    scale(stack,arm2Length);
-                    draw(stack);
-                }
-                stack.pop();
-            }
-            stack.pop();
-        }
-        stack.pop();
-
+    for(int i =0; i<amount; ++i) {
+        glUniformMatrix4fv(Main::Uniform::modelToWorldMatrix,1,GL_FALSE,
+                           glm::value_ptr(glm::translate(glm::mat4(),glm::vec3(positions[i].x,0.0f,positions[i].y))));
+        Main::Controller::drawObject();
     }
-    stack.pop();
 
     glutPostRedisplay();
 }

@@ -8,8 +8,12 @@ class Scene {
 private:
     static Scene* instance;
     Engine::Object cube;
+    Engine::Object tree;
+    Engine::Object grass;
 
     Scene();
+    void placeObjects();
+    glm::vec2* positions;
 public:
     static Scene* getInstance();
 

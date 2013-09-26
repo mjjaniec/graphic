@@ -4,6 +4,7 @@
 #include "Engine/Triangle.hpp"
 #include <glm/glm.hpp>
 #include <vector>
+#include <iostream>
 
 namespace Engine {
 
@@ -14,6 +15,7 @@ public:
     std::vector<Triangle>& getTriangles();
     Object(const char* filename);
     void transform(glm::mat4 transformation);
+    friend std::ostream& operator<<(std::ostream& out, Object& self);
 };
 }
 

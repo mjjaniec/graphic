@@ -11,7 +11,7 @@ std::istream& operator>>(std::istream&in, Color&self) {
     return in>>self.r>>self.g>>self.b>>self.a;
 }
 
-std::ostream& operator<<(std::ostream&out,Color&self) {
+std::ostream& operator<<(std::ostream&out, Color&self) {
     return out<<"{ r: "<<self.r<<", g: "<<self.g<<", b: "<<self.b<<", a: "<<self.a<<" }";
 }
 

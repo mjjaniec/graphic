@@ -77,6 +77,8 @@ void init() {
        exit(-1);
     }
 
+    srand(time(NULL));
+
     GLuint bufferID;
     GLuint vao;
 
