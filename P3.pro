@@ -12,7 +12,10 @@ SOURCES += main.cpp \
     Engine/Color.cpp \
     Main/Uniform.cpp \
     Engine/Object.cpp \
-    Engine/MatrixStack.cpp
+    Engine/MatrixStack.cpp \
+    World/Tree.cpp \
+    World/Cube.cpp \
+    World/ObjectBase.cpp
 
 LIBS += -lfreeglutD -lglutilD -lglfwD -lglmeshD -lglimgD -lglloadD -lGL -lGLU -lX11 -lXrandr -lpthread
 
@@ -28,7 +31,10 @@ HEADERS += \
     Engine/Position.hpp \
     Main/Uniform.hpp \
     Engine/Object.hpp \
-    Engine/MatrixStack.hpp
+    Engine/MatrixStack.hpp \
+    World/Tree.hpp \
+    World/Cube.hpp \
+    World/ObjectBase.hpp
 
 OTHER_FILES += \
     Shaders/vertex.glsl \

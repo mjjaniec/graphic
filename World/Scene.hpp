@@ -1,6 +1,10 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 #include "Engine/Object.hpp"
+#include "World/Cube.hpp"
+#include "World/Tree.hpp"
+#include "World/ObjectBase.hpp"
+
 
 namespace World {
 
@@ -13,10 +17,12 @@ private:
     Engine::Object skies;
 
     Scene();
-    void placeObjects();
-    glm::vec2* positions;
+    std::vector<World::Tree*> trees;
+    std::vector<World::Cube*> cubes;
+    std::vector<World::ObjectBase*> objects;
 public:
     static Scene* getInstance();
+    void fire(glm::vec2 position, float yaw);
 
     void render();
 };

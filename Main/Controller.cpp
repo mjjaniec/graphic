@@ -114,7 +114,7 @@ void Controller::keyboardFunc(unsigned char key, int x, int y) {
     x = y;
     y = x;
     const float angleSstep = -4;
-    glm::vec2 step = 0.1f * glm::vec2(-sin(M_PI * yaw / 180.0), cos(M_PI * yaw / 180.0));
+    glm::vec2 step = 0.3f * glm::vec2(-sin(M_PI * yaw / 180.0), cos(M_PI * yaw / 180.0));
     switch (key)
     {
     case 'w': position += step; break;
@@ -122,6 +122,8 @@ void Controller::keyboardFunc(unsigned char key, int x, int y) {
 
     case 'a': yaw += angleSstep; break;
     case 'd': yaw -= angleSstep; break;
+
+    case ' ': World::Scene::getInstance()->fire(position, yaw);
 
     case 27:
         glutLeaveMainLoop();

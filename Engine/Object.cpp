@@ -10,6 +10,7 @@ std::ostream& operator<<(std::ostream& out, Object& self){
         out<<triangle<<",\n";
     }
     out<<" ] }";
+    return out;
 }
 
 Object::Object(const char *filename) {

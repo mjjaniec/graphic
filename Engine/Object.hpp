@@ -1,5 +1,5 @@
-#ifndef OBJECT_HPP
-#define OBJECT_HPP
+#ifndef ENGINE_OBJECT_HPP
+#define ENGINE_OBJECT_HPP
 
 #include "Engine/Triangle.hpp"
 #include <glm/glm.hpp>
