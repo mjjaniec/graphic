@@ -11,17 +11,15 @@ Cube::Cube(glm::vec2 position)
 
 void Cube::shoot(){
     x = !x;
-    angle = 0;
 }
 
 glm::mat4 Cube::matrix() {
     glm::mat4 m();
     if(x) {
         angle++;
-        return glm::rotate(glm::translate(glm::mat4(),glm::vec3(position.x,0.0f,position.y)),angle,glm::vec3(0.0f,1.0f,0.0f));
-
     }
-    return glm::translate(glm::mat4(),glm::vec3(position.x,0,position.y));
+    return glm::rotate(glm::translate(glm::mat4(),glm::vec3(position.x,0.0f,position.y)),angle,glm::vec3(0.0f,1.0f,0.0f));
+
 }
 
 

@@ -55,12 +55,10 @@ Scene* Scene::getInstance() {
 }
 
 void Scene::fire(glm::vec2 position, float yaw){
-    std::cout<<"postion: ["<<position.x<<", "<<position.y<<"]   yaw: "<<yaw<<"\n";
     std::vector<ObjectBase*> atSight;
     for(ObjectBase* obj : objects) {
         if(obj->isOnSight(yaw,position)) {
             atSight.push_back(obj);
-            //std::cout<<"Obj: "<<*obj<<"\n";
         }
     }
 
