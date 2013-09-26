@@ -75,8 +75,9 @@ void Controller::drawObject() {
 }
 
 void Controller::updateCameraToClipMatrix() {
-    const float frustum = 1;
+    const float fovy = M_PI / 6.0;
     const float n = 1, f = 3;
+    float frustum = 1.0 / (tan(fovy/2.0));
     glUniformMatrix4fv(Main::Uniform::cameraToClipMatrix,1,GL_FALSE,glm::value_ptr(glm::mat4(
         frustum / Controller::getWidth() * Controller::getHeight(), 0, 0, 0,
         0, frustum, 0, 0,
@@ -90,7 +91,7 @@ float xRotation = 0;
 void Controller::updateWorldToCameraMatrix() {
     glUseProgram(getProgram());
     glm::mat4 worldToCamera = glm::mat4(1.0f);
-    worldToCamera = glm::translate(worldToCamera,glm::vec3(0.0f, 0.0f, -2.0f));
+    worldToCamera = glm::translate(worldToCamera,glm::vec3(0.0f, 0.0f, -4.0f));
     worldToCamera = glm::rotate(worldToCamera,xRotation,glm::vec3(-1.0f, 0.0f, 0.0f));
     worldToCamera = glm::rotate(worldToCamera,yRotation,glm::vec3(-0.0f, 1.0f, 0.0f));
     glUniformMatrix4fv(Uniform::worldToCameraMatrix,1,GL_FALSE,glm::value_ptr(worldToCamera));
