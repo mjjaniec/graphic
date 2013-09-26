@@ -44,6 +44,7 @@ namespace Main {
         static float pitch;
         static float yaw;
         static float roll;
+        static glm::vec2 position;
     private:
         static void updateWorldToCameraMatrix();
         static void updateCameraToClipMatrix();

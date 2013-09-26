@@ -8,8 +8,9 @@ class Scene {
 private:
     static Scene* instance;
     Engine::Object cube;
-    Engine::Object tree;
     Engine::Object grass;
+    Engine::Object tree;
+    Engine::Object skies;
 
     Scene();
     void placeObjects();

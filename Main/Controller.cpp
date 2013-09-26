@@ -32,14 +32,14 @@ void Controller::drawAxes() {
 
 void Controller::renderFunc() {
 
-    glClearColor(0.2f, 0.6f, 1.0f, 0.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClearDepth(1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glUseProgram(Controller::getProgram());
     glUniformMatrix4fv(Uniform::modelToWorldMatrix,1,GL_FALSE,glm::value_ptr(glm::mat4()));
 
-    drawAxes();
+    // drawAxes();
 
     World::Scene::getInstance()->render();
 
@@ -103,8 +103,8 @@ void Controller::updateWorldToCameraMatrix() {
         orientation = glm::rotate(orientation,roll,glm::vec3(0,0,1));
     }
 
-    worldToCamera = glm::translate(worldToCamera,glm::vec3(0.0f, 0.0f, -4.0f));
     worldToCamera = worldToCamera*glm::mat4_cast(orientation);
+    worldToCamera = glm::translate(worldToCamera,glm::vec3(position.x,0,position.y));
 
     glUniformMatrix4fv(Uniform::worldToCameraMatrix, 1, GL_FALSE,
                        glm::value_ptr(worldToCamera));
@@ -113,14 +113,15 @@ void Controller::updateWorldToCameraMatrix() {
 void Controller::keyboardFunc(unsigned char key, int x, int y) {
     x = y;
     y = x;
-    const float step = -4;
+    const float angleSstep = -4;
+    glm::vec2 step = 0.1f * glm::vec2(-sin(M_PI * yaw / 180.0), cos(M_PI * yaw / 180.0));
     switch (key)
     {
-    case 'a': yaw+= step; break;
-    case 'd': yaw -= step; break;
+    case 'w': position += step; break;
+    case 's': position -= step; break;
 
-    case 'w': pitch += step; break;
-    case 's': pitch -= step; break;
+    case 'a': yaw += angleSstep; break;
+    case 'd': yaw -= angleSstep; break;
 
     case 27:
         glutLeaveMainLoop();
@@ -185,6 +186,6 @@ glm::fquat Controller::orientation(1.0f, 0.0f, 0.0f, 0.0f);
 float Controller::pitch = 0.0f;
 float Controller::yaw = 0.0f;
 float Controller::roll = 0.0f;
-static float rollOffset;
+glm::vec2 Controller::position;
 
 }

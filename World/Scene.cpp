@@ -24,17 +24,19 @@ using namespace Engine;
 
 namespace World{
 
-const int amount = 30;
+const int amount = 70;
 
-Scene::Scene():cube("../P3/Resources/cube2"), grass("../P3/Resources/grass"), tree("../P3/Resources/tree"){
+Scene::Scene():
+        cube("../P3/Resources/cube2"),
+        grass("../P3/Resources/grass"),
+        tree("../P3/Resources/tree"),
+        skies("../P3/Resources/skies"){
     cube.transform(glm::mat4(1,0,0,0,   0,1,0,0,    0,0,0.333333333333333,0.666666666666667, 0,0,0,1));
     cube.transform(glm::mat4(2,0,0,0,   0,2,0,0,    0,0,2,0,    0,0,0,1));
 
-    std::cout<<tree<<"\n";
-
     positions = new glm::vec2[amount];
     for(int i = 0; i<amount; ++i) {
-        positions[i] = glm::vec2(random()%200-100.0,random()%200-100.0);
+        positions[i] = glm::vec2(random()%100-50.0,random()%100-50.0);
     }
 
 }
@@ -55,15 +57,21 @@ void trans(MatrixStack& stack, float z) {
 
 
 void Scene::render() {
-    Main::Controller::initObject(&grass);
+    Main::Controller::initObject(&skies);
     Main::Controller::drawObject();
-
-    Main::Controller::initObject(&tree);
+    Main::Controller::initObject(&grass);
     Main::Controller::drawObject();
 
     Main::Controller::initObject(&cube);
 
-    for(int i =0; i<amount; ++i) {
+    for(int i =0; i<amount/2; ++i) {
+        glUniformMatrix4fv(Main::Uniform::modelToWorldMatrix,1,GL_FALSE,
+                           glm::value_ptr(glm::translate(glm::mat4(),glm::vec3(positions[i].x,0.0f,positions[i].y))));
+        Main::Controller::drawObject();
+    }
+
+    Main::Controller::initObject(&tree);
+    for(int i =amount/2; i<amount; ++i) {
         glUniformMatrix4fv(Main::Uniform::modelToWorldMatrix,1,GL_FALSE,
                            glm::value_ptr(glm::translate(glm::mat4(),glm::vec3(positions[i].x,0.0f,positions[i].y))));
         Main::Controller::drawObject();

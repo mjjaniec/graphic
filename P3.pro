@@ -37,4 +37,4 @@ OTHER_FILES += \
     Resources/cube2 \
     Resources/grass \
     Resources/tree \
-    Resources/skies.txt
+    Resources/skies
