@@ -65,22 +65,22 @@ static glm::mat3 RotateZ(float fAngDeg)
         return m_currMat;
     }
 
-    void MatrixStack::RotateX(float fAngDeg)
+    void MatrixStack::rotateX(float fAngDeg)
     {
         m_currMat = m_currMat * glm::mat4(Engine::RotateX(fAngDeg));
     }
 
-    void MatrixStack::RotateY(float fAngDeg)
+    void MatrixStack::rotateY(float fAngDeg)
     {
         m_currMat = m_currMat * glm::mat4(Engine::RotateY(fAngDeg));
     }
 
-    void MatrixStack::RotateZ(float fAngDeg)
+    void MatrixStack::rotateZ(float fAngDeg)
     {
         m_currMat = m_currMat * glm::mat4(Engine::RotateZ(fAngDeg));
     }
 
-    void MatrixStack::Scale(const glm::vec3 &scaleVec)
+    void MatrixStack::scale(const glm::vec3 &scaleVec)
     {
         glm::mat4 scaleMat(1.0f);
         scaleMat[0].x = scaleVec.x;
@@ -90,7 +90,7 @@ static glm::mat3 RotateZ(float fAngDeg)
         m_currMat = m_currMat * scaleMat;
     }
 
-    void MatrixStack::Translate(const glm::vec3 &offsetVec)
+    void MatrixStack::translate(const glm::vec3 &offsetVec)
     {
         glm::mat4 translateMat(1.0f);
         translateMat[3] = glm::vec4(offsetVec, 1.0f);
@@ -98,12 +98,12 @@ static glm::mat3 RotateZ(float fAngDeg)
         m_currMat = m_currMat * translateMat;
     }
 
-    void MatrixStack::Push()
+    void MatrixStack::push()
     {
         m_matrices.push(m_currMat);
     }
 
-    void MatrixStack::Pop()
+    void MatrixStack::pop()
     {
         m_currMat = m_matrices.top();
         m_matrices.pop();

@@ -39,47 +39,80 @@ void draw(MatrixStack& matrixStack) {
     Main::Controller::drawObject();
 }
 
+void scale(MatrixStack& stack, float scale) {
+    stack.scale(glm::vec3(scale/4,scale/4,scale));
+}
+
+void trans(MatrixStack& stack, float z) {
+    stack.translate(glm::vec3(0,0,z));
+}
+
+
 void Scene::render() {
     Main::Controller::initObject(&cube);
 
+    float elapsedTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
     MatrixStack stack;
 
+    const float factor = 4.0f;
+    float baseLength = 4.0f;
+    float arm1Angle = -45.0f + 15 * sin(elapsedTime);
+    float arm1Length = 4.0f;
+    float arm2Length = 2.0f + cos(elapsedTime*2);
+    float arm2Angle = 15 + 30 * sin(elapsedTime*4);
 
-    stack.Push();
+
+    stack.push();
     {
-        stack.Translate(glm::vec3(0.5,0,0));
-        stack.Scale(glm::vec3(1,1,4));
-        draw(stack);
-    }
-    stack.Pop();
-    stack.Push();
-    {
-        stack.Translate(glm::vec3(-0.5,0,0));
-        stack.Scale(glm::vec3(1,1,4));
-        draw(stack);
-    }
-    stack.Pop();
-    stack.Push();
-    {
-        stack.Translate(glm::vec3(0,0,-1));
-        stack.RotateX(-45);
-        stack.Translate(glm::vec3(0,0,1));
-        stack.Push();
+        stack.push();
         {
-            stack.Scale(glm::vec3(1,1,4));
+            stack.translate(glm::vec3(0.5,0,0));
+            scale(stack,baseLength);
             draw(stack);
         }
-        stack.Pop();
-        stack.Push();
+        stack.pop();
+        stack.push();
         {
-        //    stack.Translate(glm::vec3(0,0,0.6));
-            stack.Scale(glm::vec3(0.75,0.75,2));
-            stack.RotateX(+105);
+            stack.translate(glm::vec3(-0.5,0,0));
+            scale(stack,baseLength);
             draw(stack);
         }
-        stack.Pop();
+        stack.pop();
+
+        trans(stack,-baseLength/factor);
+
+        stack.push();
+        {
+            stack.rotateX(arm1Angle);
+            trans(stack,arm1Length/factor);
+            stack.push();
+            {
+                scale(stack,arm1Length);
+                draw(stack);
+            }
+            stack.pop();
+
+            trans(stack,0.9*arm1Length/factor);
+
+            stack.push();
+            {
+                stack.rotateX(arm2Angle);
+                trans(stack,arm2Length/factor);
+                stack.push();
+                {
+                    scale(stack,arm2Length);
+                    draw(stack);
+                }
+                stack.pop();
+            }
+            stack.pop();
+        }
+        stack.pop();
+
     }
-    stack.Pop();
+    stack.pop();
+
+    glutPostRedisplay();
 }
 
 }

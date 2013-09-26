@@ -11,17 +11,17 @@ public:
     MatrixStack();
 
     const glm::mat4 &Top();
-    void RotateX(float fAngDeg);
+    void rotateX(float fAngDeg);
 
-    void RotateY(float fAngDeg);
+    void rotateY(float fAngDeg);
 
-    void RotateZ(float fAngDeg);
+    void rotateZ(float fAngDeg);
 
-    void Scale(const glm::vec3 &scaleVec);
+    void scale(const glm::vec3 &scaleVec);
 
-    void Translate(const glm::vec3 &offsetVec);
-    void Push();
-    void Pop();
+    void translate(const glm::vec3 &offsetVec);
+    void push();
+    void pop();
 private:
     glm::mat4 m_currMat;
     std::stack<glm::mat4> m_matrices;

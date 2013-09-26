@@ -24,7 +24,6 @@ void Controller::init() {
 }
 
 void Controller::drawAxes() {
-    glUniformMatrix4fv(Uniform::modelToWorldMatrix,1,GL_FALSE,glm::value_ptr(glm::mat4()));
     glDisable(GL_CULL_FACE);
     initObject(&axes);
     drawObject();
@@ -38,6 +37,7 @@ void Controller::renderFunc() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glUseProgram(Controller::getProgram());
+    glUniformMatrix4fv(Uniform::modelToWorldMatrix,1,GL_FALSE,glm::value_ptr(glm::mat4()));
 
     drawAxes();
 

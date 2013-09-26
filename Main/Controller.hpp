@@ -26,6 +26,7 @@ namespace Main {
         static void init();
         static void initObject(Engine::Object* object);
         static void drawObject();
+        static void drawAxes();
 
     private:
         static int width;
@@ -39,7 +40,6 @@ namespace Main {
     private:
         static void updateWorldToCameraMatrix();
         static void updateCameraToClipMatrix();
-        static void drawAxes();
         static void bufferTriangles();
     };
 }
