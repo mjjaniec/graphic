@@ -8,7 +8,7 @@ Cube::Cube(glm::vec2 position)
 }
 
 void Cube::shoot(){
-
+  std::cout<<"\tI ve been shoot: ["<<position.x<<", "<<-position.y<<"]\n";
 }
 
 glm::mat4 Cube::matrix() {

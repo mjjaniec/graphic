@@ -2,6 +2,7 @@
 #define WORLD_OBJECT_HPP
 
 #include <glm/glm.hpp>
+#include <iostream>
 
 namespace World {
 
@@ -13,6 +14,7 @@ public:
     bool isOnSight(float yaw, glm::vec2 camera);
     virtual glm::mat4 matrix() = 0;
     virtual void shoot() = 0;
+    friend std::ostream& operator<<(std::ostream&out,ObjectBase&self);
 protected:
     glm::vec2 position;
 };

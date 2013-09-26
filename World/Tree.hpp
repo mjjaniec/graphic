@@ -10,6 +10,8 @@ public:
     Tree(glm::vec2 position);
     void shoot();
     glm::mat4 matrix();
+private:
+    bool x;
 };
 
 }

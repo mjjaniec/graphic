@@ -24,10 +24,10 @@
 namespace World{
 
 Scene::Scene():
-        cube("../P3/Resources/cube2"),
-        grass("../P3/Resources/grass"),
-        tree("../P3/Resources/tree"),
-        skies("../P3/Resources/skies"){
+    cube("../P3/Resources/cube2"),
+    grass("../P3/Resources/grass"),
+    tree("../P3/Resources/tree"),
+    skies("../P3/Resources/skies"){
     cube.transform(glm::mat4(1,0,0,0,   0,1,0,0,    0,0,0.333333333333333,0.666666666666667, 0,0,0,1));
     cube.transform(glm::mat4(2,0,0,0,   0,2,0,0,    0,0,2,0,    0,0,0,1));
 
@@ -55,7 +55,28 @@ Scene* Scene::getInstance() {
 }
 
 void Scene::fire(glm::vec2 position, float yaw){
+    std::cout<<"postion: ["<<position.x<<", "<<position.y<<"]   yaw: "<<yaw<<"\n";
+    std::vector<ObjectBase*> atSight;
+    for(ObjectBase* obj : objects) {
+        if(obj->isOnSight(yaw,position)) {
+            atSight.push_back(obj);
+            //std::cout<<"Obj: "<<*obj<<"\n";
+        }
+    }
 
+    ObjectBase* closest = NULL;
+    float minDist = 1e10, dist;
+    for(ObjectBase* obj : atSight) {
+        dist = obj->dist(position);
+        if(dist<minDist) {
+            minDist = dist;
+            closest = obj;
+        }
+    }
+
+    if(closest) {
+        closest ->shoot();
+    }
 }
 
 

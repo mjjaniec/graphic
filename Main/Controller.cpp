@@ -123,7 +123,7 @@ void Controller::keyboardFunc(unsigned char key, int x, int y) {
     case 'a': yaw += angleSstep; break;
     case 'd': yaw -= angleSstep; break;
 
-    case ' ': World::Scene::getInstance()->fire(position, yaw);
+    case ' ': World::Scene::getInstance()->fire(position, yaw); break;
 
     case 27:
         glutLeaveMainLoop();
