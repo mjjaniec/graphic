@@ -55,58 +55,62 @@ static glm::mat3 RotateZ(float fAngDeg)
     return theMat;
 }
 
-    MatrixStack::MatrixStack()
-        : m_currMat(1.0f)
-    {
-    }
+MatrixStack::MatrixStack()
+    : m_currMat(1.0f)
+{
+}
 
-    const glm::mat4& MatrixStack::Top()
-    {
-        return m_currMat;
-    }
+const glm::mat4& MatrixStack::Top()
+{
+    return m_currMat;
+}
 
-    void MatrixStack::rotateX(float fAngDeg)
-    {
-        m_currMat = m_currMat * glm::mat4(Engine::RotateX(fAngDeg));
-    }
+void MatrixStack::applayMatrix(const glm::mat4 &matrix){
+    m_currMat = m_currMat * matrix;
+}
 
-    void MatrixStack::rotateY(float fAngDeg)
-    {
-        m_currMat = m_currMat * glm::mat4(Engine::RotateY(fAngDeg));
-    }
+void MatrixStack::rotateX(float fAngDeg)
+{
+    m_currMat = m_currMat * glm::mat4(Engine::RotateX(fAngDeg));
+}
 
-    void MatrixStack::rotateZ(float fAngDeg)
-    {
-        m_currMat = m_currMat * glm::mat4(Engine::RotateZ(fAngDeg));
-    }
+void MatrixStack::rotateY(float fAngDeg)
+{
+    m_currMat = m_currMat * glm::mat4(Engine::RotateY(fAngDeg));
+}
 
-    void MatrixStack::scale(const glm::vec3 &scaleVec)
-    {
-        glm::mat4 scaleMat(1.0f);
-        scaleMat[0].x = scaleVec.x;
-        scaleMat[1].y = scaleVec.y;
-        scaleMat[2].z = scaleVec.z;
+void MatrixStack::rotateZ(float fAngDeg)
+{
+    m_currMat = m_currMat * glm::mat4(Engine::RotateZ(fAngDeg));
+}
 
-        m_currMat = m_currMat * scaleMat;
-    }
+void MatrixStack::scale(const glm::vec3 &scaleVec)
+{
+    glm::mat4 scaleMat(1.0f);
+    scaleMat[0].x = scaleVec.x;
+    scaleMat[1].y = scaleVec.y;
+    scaleMat[2].z = scaleVec.z;
 
-    void MatrixStack::translate(const glm::vec3 &offsetVec)
-    {
-        glm::mat4 translateMat(1.0f);
-        translateMat[3] = glm::vec4(offsetVec, 1.0f);
+    m_currMat = m_currMat * scaleMat;
+}
 
-        m_currMat = m_currMat * translateMat;
-    }
+void MatrixStack::translate(const glm::vec3 &offsetVec)
+{
+    glm::mat4 translateMat(1.0f);
+    translateMat[3] = glm::vec4(offsetVec, 1.0f);
 
-    void MatrixStack::push()
-    {
-        m_matrices.push(m_currMat);
-    }
+    m_currMat = m_currMat * translateMat;
+}
 
-    void MatrixStack::pop()
-    {
-        m_currMat = m_matrices.top();
-        m_matrices.pop();
-    }
+void MatrixStack::push()
+{
+    m_matrices.push(m_currMat);
+}
+
+void MatrixStack::pop()
+{
+    m_currMat = m_matrices.top();
+    m_matrices.pop();
+}
 
 }

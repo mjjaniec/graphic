@@ -5,6 +5,9 @@
 #include <map>
 
 #include <GL/freeglut.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <Engine/Triangle.hpp>
 #include <Engine/Object.hpp>
@@ -34,9 +37,13 @@ namespace Main {
         static GLuint program;
         static GLuint vertexBuffer;
 
+        static glm::fquat orientation;
         static std::vector<Engine::Triangle> triangles;
         static Engine::Object axes;
         static Engine::Object*object;
+        static float pitchOffset;
+        static float yawOffset;
+        static float rollOffset;
     private:
         static void updateWorldToCameraMatrix();
         static void updateCameraToClipMatrix();

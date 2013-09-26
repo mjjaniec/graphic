@@ -12,14 +12,11 @@ public:
 
     const glm::mat4 &Top();
     void rotateX(float fAngDeg);
-
     void rotateY(float fAngDeg);
-
     void rotateZ(float fAngDeg);
-
     void scale(const glm::vec3 &scaleVec);
-
     void translate(const glm::vec3 &offsetVec);
+    void applayMatrix(const glm::mat4 & matrix);
     void push();
     void pop();
 private:

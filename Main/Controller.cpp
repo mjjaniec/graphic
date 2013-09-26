@@ -85,29 +85,45 @@ void Controller::updateCameraToClipMatrix() {
         0, 0, -1, 0 )));
 }
 
-float yRotation = 0;
-float xRotation = 0;
+
 
 void Controller::updateWorldToCameraMatrix() {
     glUseProgram(getProgram());
     glm::mat4 worldToCamera = glm::mat4(1.0f);
+
+
+    if(pitchOffset) {
+        orientation = glm::rotate(orientation,pitchOffset,glm::vec3(1,0,0));
+    }
+    if(yawOffset) {
+        orientation = glm::rotate(orientation,yawOffset,glm::vec3(0,1,0));
+    }
+    if(rollOffset) {
+        orientation = glm::rotate(orientation,rollOffset,glm::vec3(0,0,1));
+    }
+
+    yawOffset = 0;
+    pitchOffset = 0;
+    rollOffset = 0;
+
     worldToCamera = glm::translate(worldToCamera,glm::vec3(0.0f, 0.0f, -4.0f));
-    worldToCamera = glm::rotate(worldToCamera,xRotation,glm::vec3(-1.0f, 0.0f, 0.0f));
-    worldToCamera = glm::rotate(worldToCamera,yRotation,glm::vec3(-0.0f, 1.0f, 0.0f));
-    glUniformMatrix4fv(Uniform::worldToCameraMatrix,1,GL_FALSE,glm::value_ptr(worldToCamera));
+    worldToCamera = worldToCamera*glm::mat4_cast(orientation);
+
+    glUniformMatrix4fv(Uniform::worldToCameraMatrix, 1, GL_FALSE,
+                       glm::value_ptr(worldToCamera));
 }
 
 void Controller::keyboardFunc(unsigned char key, int x, int y) {
     x = y;
     y = x;
-    const float step = 5;
+    const float step = -4;
     switch (key)
     {
-    case 'a': yRotation += step; break;
-    case 'd': yRotation -= step; break;
+    case 'a': yawOffset+= step; break;
+    case 'd': yawOffset -= step; break;
 
-    case 'w': xRotation += step; break;
-    case 's': xRotation -= step; break;
+    case 'w': pitchOffset += step; break;
+    case 's': pitchOffset -= step; break;
 
     case 27:
         glutLeaveMainLoop();
@@ -168,5 +184,10 @@ GLuint Controller::program;
 GLuint Controller::vertexBuffer;
 Engine::Object Controller::axes("../P3/Resources/axes");
 Engine::Object* Controller::object;
+glm::fquat Controller::orientation(1.0f, 0.0f, 0.0f, 0.0f);
+float Controller::pitchOffset = 0.0f;
+float Controller::yawOffset = 0.0f;
+float Controller::rollOffset = 0.0f;
+static float rollOffset;
 
 }

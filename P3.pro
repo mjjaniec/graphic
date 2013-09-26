@@ -12,7 +12,7 @@ SOURCES += main.cpp \
     Engine/Color.cpp \
     Main/Uniform.cpp \
     Engine/Object.cpp \
-    Engine/MetrixStack.cpp
+    Engine/MatrixStack.cpp
 
 LIBS += -lfreeglutD -lglutilD -lglfwD -lglmeshD -lglimgD -lglloadD -lGL -lGLU -lX11 -lXrandr -lpthread
 
@@ -32,4 +32,6 @@ HEADERS += \
 
 OTHER_FILES += \
     Shaders/vertex.glsl \
-    Shaders/fragment.glsl
+    Shaders/fragment.glsl \
+    Resources/axes \
+    Resources/cube2
